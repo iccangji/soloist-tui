@@ -23,12 +23,17 @@ Wrapper [Spotify Soloist](https://developer.spotify.com/documentation/soloist) T
 
 ## Quick start
 ```bash
-# Create an .env file (or export variables)
+# Create an .env file
 cat > .env <<EOF
 SOLOIST_API_KEY=your_api_key_here
 SOLOIST_DEVICE_NAME=you_device_name
 SOLOIST_WS_URL=ws://127.0.0.1:9090
 EOF
+
+# Load the variables into the current shell
+set -a
+source .env
+set +a
 
 # Build the TUI
 go build -o bin/spotify-tui cmd/tui/main.go

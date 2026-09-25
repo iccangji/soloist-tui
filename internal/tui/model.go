@@ -16,6 +16,7 @@ import (
 type Model struct {
 	client        *soloist.Client
 	connected     bool
+	isActive      bool
 	playing       bool
 	track         soloist.Track
 	position      int64 // current interpolated position used for UI
@@ -118,7 +119,7 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	case soloist.EventAuthState:
 		if e, ok := ev.(soloist.AuthStateEvent); ok {
 			m.loggedIn = e.LoggedIn
-			m.shuffle = e.IsActive // use is_active as placeholder for active state, not needed for UI now
+			m.isActive = e.IsActive // use is_active as placeholder for active state, not needed for UI now
 		}
 
 		case soloist.EventPlaybackState:
@@ -133,6 +134,7 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 				m.lastPosMs = e.Position.PositionMs
 				m.lastTimestamp = e.Position.TimestampMs
 				m.speed = e.Position.Speed
+				m.isActive = e.IsActive
 			}
 		case soloist.EventTrackChanged:
 			if e, ok := ev.(soloist.TrackChangedEvent); ok {
@@ -224,6 +226,9 @@ func (m Model) View() string {
 	status := "○ Disconnected"
 	if m.connected {
 		status = "● Connected"
+		if m.isActive {
+			status = "● Active"
+		}
 	} else if m.reconnecting {
 		status = "↻ Reconnecting..."
 	}

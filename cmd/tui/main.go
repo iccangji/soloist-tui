@@ -18,6 +18,9 @@ func main() {
 		fmt.Fprintln(os.Stderr, "Error: SOLOIST_API_KEY environment variable not set")
 		os.Exit(1)
 	}
+	if deviceName == "" {
+		deviceName = "Soloist"
+	}
 
 	// Start Soloist process in background
 	ctx, cancel := context.WithCancel(context.Background())

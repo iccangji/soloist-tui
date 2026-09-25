@@ -110,6 +110,7 @@ type PlaybackStateEvent struct {
 	Position PositionInfo `json:"position"`
 	Volume   int          `json:"volume"`
 	Options  OptionsInfo  `json:"options"`
+	IsActive bool         `json:"is_active"`
 }
 
 type TrackChangedEvent struct {
